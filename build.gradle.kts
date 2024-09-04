@@ -1,5 +1,6 @@
 plugins {
     id("java-library")
+    id("maven-publish")
 }
 
 allprojects {
@@ -8,6 +9,8 @@ allprojects {
         mavenCentral()
         maven("https://hub.spigotmc.org/nexus/content/groups/public/")
         maven("https://s01.oss.sonatype.org/content/repositories/snapshots/")
+        maven("https://oss.sonatype.org/content/groups/public/")
+        maven("https://jitpack.io")
     }
 }
 
@@ -15,6 +18,7 @@ subprojects {
 
     apply {
         plugin("java-library")
+        plugin("maven-publish")
     }
 
     group = "dev.triumphteam"
@@ -36,6 +40,17 @@ subprojects {
             sourceCompatibility = JavaVersion.VERSION_1_8.toString()
             targetCompatibility = JavaVersion.VERSION_1_8.toString()
             options.encoding = "UTF-8"
+        }
+    }
+
+    publishing {
+        publications {
+            create<MavenPublication>("mavenJava") {
+                groupId = "dev.wander"
+                artifactId = "Gui"
+                version = "1.0"
+                from(components["java"])
+            }
         }
     }
 }
